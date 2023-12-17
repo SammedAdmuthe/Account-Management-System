@@ -10,13 +10,20 @@
 
 #include <iostream>
 #include "StockAccount.h" // Add the missing include directive for the StockAccount class
+#include "AccountManager.h"
 
 StockAccount::StockAccount(double initialBalance){
+    
     getStockPortfolioInfo("Stock_Portfolio_Info.txt");
-    if(getBalance() == -1)
+    if(AccountManager::getInstance()->isNewAccount())
     {
         setBalance(initialBalance);
     }
+    setBalance(initialBalance);
+    // if(getBalance() == -1)
+    // {
+    //     setBalance(initialBalance);
+    // }
 
 }
 void StockAccount::displayCurrentPortfolio() const{
@@ -48,7 +55,7 @@ void StockAccount::displayCurrentPortfolio() const{
             totalValue += share * valuePerShare;
         }
     }
-    std::cout<<"Total portfolio value: $"<<totalValue +getBalance()<<std::endl;
+    std::cout<<"Total portfolio value: $"<<totalValue + getBalance()<<std::endl;
     file.close();
 
 }
@@ -70,7 +77,15 @@ DoublyLinkedList& StockAccount::getStockPortfolioInfo(const std::string& filenam
 }
 
 
+double StockAccount::getBalance() const
+{ 
+    return AccountManager::getInstance()->getBalance(); 
+}
 
+void StockAccount::setBalance(double amount)
+{ 
+    return AccountManager::getInstance()->setBalance(amount); 
+}
 
 StockAccount::StockData StockAccount::readStockData (std::string filename, std::string symbol) {
     std::ifstream file(filename);

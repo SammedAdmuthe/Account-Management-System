@@ -12,6 +12,8 @@ class BankAccount : public Account {
 public:
     // BankAccount();
     BankAccount(double initialBalance);
+    void setBalance(double amount);
+    double getBalance() const;
     void deposit(double amount);
     void withdraw(double amount);
     void accountBalance();

@@ -5,12 +5,14 @@
 #define ACCOUNT_H
 
 class Account {
-private:
-    static double balance;
+// private:
+//     static double balance;
 public:
-    Account();
-    double getBalance() const;
-    void setBalance(double amount);
+    // Account();
+    // double getBalance() const;
+    // void setBalance(double amount);
+    virtual double getBalance() const = 0;
+    virtual void setBalance(double amount) = 0;
     virtual ~Account();
 };
 

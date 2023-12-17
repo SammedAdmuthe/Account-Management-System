@@ -1,16 +1,32 @@
 //Author:  Sammed Sunil Admuthe
 #include "BankAccount.h"
+#include "AccountManager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
 
 BankAccount::BankAccount(double initialBalance){
-    if(getBalance() == -1)
+    if(AccountManager::getInstance()->isNewAccount())
     {
         setBalance(initialBalance);
     }
+    // setBalance(initialBalance);
+    // if(getBalance() == -1)
+    // {
+    //    setBalance(initialBalance);
+    // }
 
+}
+
+double BankAccount::getBalance() const
+{ 
+    return AccountManager::getInstance()->getBalance(); 
+}
+
+void BankAccount::setBalance(double amount)
+{ 
+    return AccountManager::getInstance()->setBalance(amount); 
 }
 
 void BankAccount::deposit(double amount) {
