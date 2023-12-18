@@ -1,1 +1,5 @@
-GS 5
+GOOG 9
+AAPL 5
+CSCO 5
+IBM 9
+GS 10

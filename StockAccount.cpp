@@ -26,6 +26,10 @@ StockAccount::StockAccount(double initialBalance){
     // }
 
 }
+DoublyLinkedList* StockAccount::getList() {
+    return &stockData;
+}
+
 void StockAccount::displayCurrentPortfolio() const{
 
     std::ifstream file("Stock_Portfolio_Info.txt");

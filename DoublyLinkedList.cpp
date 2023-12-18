@@ -19,6 +19,10 @@ DoublyLinkedList::~DoublyLinkedList() {
     }
 }
 
+void DoublyLinkedList::setSortingStrategy(SortingStrategy* strategy) {
+    sortingStrategy = strategy;
+}
+
 void DoublyLinkedList::insert(std::string sym, int sh) {
     //check if Symbol Already exists
 
@@ -107,26 +111,33 @@ void DoublyLinkedList::addStocksToPortfolio() {
 
     outFile.close();
 }
-void DoublyLinkedList::sortList() {
-    if (!head || !head->next) return;
 
-    bool swapped;
-    do {
-        swapped = false;
-        ListNode* current = head;
-        while (current->next) {
-            double valuePerShareCurr = StockAccount::displayPriceOfStock(current->symbol);
-            double valuePerShareNext = StockAccount::displayPriceOfStock(current->next->symbol);
-            if ((current->shares * valuePerShareCurr) < (current->next->shares * valuePerShareNext)) {
-                // Swap the values
-                std::swap(current->symbol, current->next->symbol);
-                std::swap(current->shares, current->next->shares);
-                // std::swap(current->valuePerShare, current->next->valuePerShare);
-                swapped = true;
-            }
-            current = current->next;
-        }
-    } while (swapped);
+void DoublyLinkedList::sortList() {
+
+    std::cout<<"Sorting Portfolio"<<std::endl;
+
+    if (sortingStrategy) {
+        sortingStrategy->sort(head);
+    }
+    // if (!head || !head->next) return;
+
+    // bool swapped;
+    // do {
+    //     swapped = false;
+    //     ListNode* current = head;
+    //     while (current->next) {
+    //         double valuePerShareCurr = StockAccount::displayPriceOfStock(current->symbol);
+    //         double valuePerShareNext = StockAccount::displayPriceOfStock(current->next->symbol);
+    //         if ((current->shares * valuePerShareCurr) < (current->next->shares * valuePerShareNext)) {
+    //             // Swap the values
+    //             std::swap(current->symbol, current->next->symbol);
+    //             std::swap(current->shares, current->next->shares);
+    //             // std::swap(current->valuePerShare, current->next->valuePerShare);
+    //             swapped = true;
+    //         }
+    //         current = current->next;
+    //     }
+    // } while (swapped);
 }
 
 void DoublyLinkedList::displayCurrentPortfolio(StockAccount& stockAccount) const {

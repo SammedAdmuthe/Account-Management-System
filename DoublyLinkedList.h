@@ -3,25 +3,17 @@
 #ifndef DOUBLYLINKEDLIST_H
 #define DOUBLYLINKEDLIST_H
 #include <string>
+#include "SortingStrategy.h"
+#include "ListNode.h"
 class StockAccount;
 
-class ListNode {
-public:
-    std::string symbol;
-    int shares;
-    ListNode* next;
-    ListNode* prev;
 
-    ListNode(std::string sym, int sh) 
-        : symbol(sym), shares(sh), next(nullptr), prev(nullptr) {}
-        
-};
 
 class DoublyLinkedList {
 private:
     ListNode* head;
     ListNode* tail;
-
+    SortingStrategy* sortingStrategy;
     void insertInOrder(ListNode* newNode);
     void removeNode(ListNode* node);
     void swapNodes(ListNode* node1, ListNode* node2);
@@ -29,7 +21,7 @@ private:
 public:
     DoublyLinkedList() : head(nullptr), tail(nullptr) {}
     ~DoublyLinkedList();
-
+    void setSortingStrategy(SortingStrategy* strategy);
     void insert(std::string sym, int sh);
     void sortList();
     void displayCurrentPortfolio(StockAccount &stockAccount) const;

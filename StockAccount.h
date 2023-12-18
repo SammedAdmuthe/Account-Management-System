@@ -23,6 +23,7 @@ public:
     StockAccount(double initialBalance);
     void setBalance(double amount);
     double getBalance() const;
+    DoublyLinkedList* getList();
     DoublyLinkedList& getStockPortfolioInfo(const std::string& filename);
     static StockData readStockData (std::string filename, std::string symbol);
     static double displayPriceOfStock(std::string symbol);

@@ -9,14 +9,19 @@
 #include <time.h>
 #include <cstdlib>
 #include "BankAccount.h"
-
-
+#include "SymbolSortStrategy.h"
+#include "SharesValueSortStrategy.h"
 using namespace std;
 
 int main() {
     int accountType;
     cout << "Welcome to the Account Management System." << endl;
     // Bank Withdrawal
+    // AccountFactory* bankFactory = new BankAccountFactory();
+    // Account* bankAccount = bankFactory->createAccount(10000.0);
+
+    // AccountFactory* stockFactory = new StockAccountFactory();
+    // Account* stockAccount = stockFactory->createAccount(15000.0);
     StockAccount stockAccount(10000);
     BankAccount bankAccount(10000);
     do {
@@ -43,7 +48,8 @@ int main() {
                     cout << "4. Sell Shares" << endl;
                     cout << "5. View a graph for the portfolio value" << endl;
                     cout << "6. View transaction history" << endl;
-                    cout << "7. Return to previous menu" << endl;
+                    cout << "7. Sort Portfolio" << endl;
+                    cout << "8. Return to previous menu" << endl;
                     cout << endl;
                     cout << "Option: ";
                     std::cin >> option;
@@ -121,12 +127,43 @@ int main() {
                         }
                         case 7:
                         {
+                            // stockAccount.sortPortfolio();
+                            DoublyLinkedList* list = stockAccount.getList();
+                            std::cout << "Choose one of the following options to sort on: " << std::endl;
+                            std::cout << "1. Symbol" << std::endl;
+                            std::cout << "2. Total value of each share" << std::endl;
+                            int choice;
+                            cin >> choice;
+
+                            if(choice == 1)
+                            {
+                                SymbolSortStrategy symbolSort;
+                                list->setSortingStrategy(&symbolSort);
+                                list->sortList();
+                            }
+                            else if(choice == 2)
+                            {
+                                SharesValueSortStrategy sharesValueSortStrategy;
+                                list->setSortingStrategy(&sharesValueSortStrategy);
+                                list->sortList();
+                            }
+                            else
+                            {
+                                std::cout << "Invalid choice" << std::endl;
+                                break;
+                            }
+
+                            
+                            break;
+                        }
+                        case 8:
+                        {
                             break;
                         }                
                         default:
                             break;
                     }
-                } while (option < 7);
+                } while (option < 8);
                 break;
             }
             case 2:
