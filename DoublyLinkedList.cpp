@@ -34,8 +34,8 @@ void DoublyLinkedList::insert(std::string sym, int sh) {
             {
                 removeNode(sym);
             }
+            sortByTotalValue();
             addStocksToPortfolio();
-            
             return;
         }
         current = current->next;
@@ -43,6 +43,7 @@ void DoublyLinkedList::insert(std::string sym, int sh) {
 
     ListNode* newNode = new ListNode(sym, sh);
     insertInOrder(newNode);
+    // sortByTotalValue();
 }
 void DoublyLinkedList::removeNode(std::string sym){
     ListNode* current = head;
@@ -67,6 +68,48 @@ void DoublyLinkedList::removeNode(std::string sym){
         current = current->next;
     }
 
+}
+void DoublyLinkedList::sortByTotalValue() {
+    if (!head || !head->next) return;
+
+    bool swapped;
+    do {
+        swapped = false;
+        ListNode* current = head;
+
+        while (current->next) {
+            double valuePerShareCurr = StockAccount::displayPriceOfStock(current->symbol);
+            double valuePerShareNext = StockAccount::displayPriceOfStock(current->next->symbol);
+            if (valuePerShareCurr * current->shares < valuePerShareNext * current->next->shares) {
+                // Swapping nodes
+                swapNodes(current, current->next);
+                swapped = true;
+            } else {
+                current = current->next;
+            }
+        }
+    } while (swapped);
+}
+void DoublyLinkedList::swapNodes(ListNode* node1, ListNode* node2) {
+    if (node1->prev) {
+        node1->prev->next = node2;
+    } else {
+        head = node2;
+    }
+
+    if (node2->next) {
+        node2->next->prev = node1;
+    } else {
+        tail = node1;
+    }
+
+    ListNode* tempPrev = node1->prev;
+    ListNode* tempNext = node2->next;
+
+    node2->prev = tempPrev;
+    node1->next = tempNext;
+    node1->prev = node2;
+    node2->next = node1;
 }
 void DoublyLinkedList::insertInOrder(ListNode* newNode) {
     if (!head) {
@@ -94,6 +137,7 @@ void DoublyLinkedList::insertInOrder(ListNode* newNode) {
         }
         current->prev = newNode;
     }
+    sortByTotalValue();
     addStocksToPortfolio();
 }
 void DoublyLinkedList::addStocksToPortfolio() {
@@ -185,7 +229,7 @@ void DoublyLinkedList::addAccountLog(StockAccount *stockAccount) {
     std::string filename = "accountLog.txt";
     std::ofstream file(filename, std::ios::app);
     if (!file) {
-        std::cerr << "Unable to open the file: " << filename << std::endl;
+        // std::cerr << "Unable to open the file: " << filename << std::endl;
         return;
     }
 
@@ -204,12 +248,19 @@ void DoublyLinkedList::addAccountLog(StockAccount *stockAccount) {
 
     file.close();
 }
-
+void DoublyLinkedList::display() {
+    ListNode* current = head;
+    while(current) {
+        std::cout << current->symbol << " " << current->shares <<" "<<current->shares * StockAccount::displayPriceOfStock(current->symbol)<< std::endl;
+        current = current->next;
+    }
+}
 // int main() {
 //     DoublyLinkedList dll;
 //     dll.insert("AAPL", 10);
-//     dll.insert("GOOG", 20);
 //     dll.insert("MSFT", 30);
+//     dll.insert("GOOG", 20);
+//     dll.sortByTotalValue();
 //     dll.display();
 //     return 0;
 // }

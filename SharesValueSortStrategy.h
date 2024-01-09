@@ -1,3 +1,5 @@
+// Authors: Sammed Sunil Admuthe
+
 #ifndef SHARESVALUESORTSTRATEGY_H
 #define SHARESVALUESORTSTRATEGY_H
 
@@ -9,6 +11,7 @@
 #include <iomanip>
 
 
+// Uses bubble sort as a Strategy to sort by shares * valuePerShare
 class SharesValueSortStrategy : public SortingStrategy {
 public:
     void sort(ListNode* head) override {
@@ -50,6 +53,9 @@ public:
             current = current->next;
         }
     }
+
+    ~SharesValueSortStrategy(){}
+
 };
 
 #endif

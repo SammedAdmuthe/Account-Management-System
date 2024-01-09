@@ -9,7 +9,6 @@
 
 
 #include <iostream>
-#include "StockAccount.h" // Add the missing include directive for the StockAccount class
 #include "AccountManager.h"
 
 StockAccount::StockAccount(double initialBalance){
@@ -176,7 +175,7 @@ void StockAccount::buyShares(const std::string& symbol, int shares, double maxPr
 
     // Process the transaction
     this->setBalance(this->getBalance() - totalCost);
-    std::cout<<"See HERE : "<<getBalance()<<std::endl;
+    // std::cout<<"See HERE : "<<getBalance()<<std::endl;
 
     // Add stocks to portfolio (implement addStocksToPortfolio)
     stockData.insert(symbol, shares);

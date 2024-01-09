@@ -1,5 +1,5 @@
 // Author: Sammed Sunil Admuthe
-
+// Singleton class for AccountManager - restricts creation of more than 1 instances of this class to maintain synchronization between the balance in the bank account and the balance in the stock account.   
 class AccountManager
 {   
     private:

@@ -1,3 +1,5 @@
+// Authors: Sammed Sunil Admuthe
+
 #ifndef SYMBOL_SORT_STRATEGY_H
 #define SYMBOL_SORT_STRATEGY_H
 
@@ -5,30 +7,25 @@
 #include "DoublyLinkedList.h"
 #include "StockAccount.h"
 
+// Uses selection sort as a Strategy to sort by symbol
 class SymbolSortStrategy : public SortingStrategy {
 public:
     void sort(ListNode* head) override {
         if (!head || !head->next) return;
         std::cout << "Sorting by symbol" << std::endl;
-        bool swapped;
-        do {
-            swapped = false;
-            ListNode* current = head;
-            while (current->next) {
-                double valuePerShareCurr = StockAccount::displayPriceOfStock(current->symbol);
-                double valuePerShareNext = StockAccount::displayPriceOfStock(current->next->symbol);
-                if ((current->symbol) > (current->next->symbol)) {
-                    // Swap the values
-                    std::swap(current->symbol, current->next->symbol);
-                    std::swap(current->shares, current->next->shares);
-                    // std::swap(current->valuePerShare, current->next->valuePerShare);
-                    swapped = true;
-                }
-                current = current->next;
-            }
-        } while (swapped);
 
         ListNode* current = head;
+        while (current) {
+            ListNode* minNode = findMinBySymbol(current);
+            if (minNode != current) {
+                // Swap the values
+                std::swap(current->symbol, minNode->symbol);
+                std::swap(current->shares, minNode->shares);
+            }
+            current = current->next;
+        }
+
+        current = head;
         std::cout << std::left 
             << std::setw(15) << "CompanySymbol" 
             << std::setw(10) << "Number" 
@@ -46,6 +43,20 @@ public:
             current = current->next;
         }
     }
+    ListNode* findMinBySymbol(ListNode* start) {
+        ListNode* minNode = start;
+        ListNode* current = start->next;
+        while (current) {
+            if (current->symbol < minNode->symbol) {
+                minNode = current;
+            }
+            current = current->next;
+        }
+        return minNode;
+    }
+
+    ~SymbolSortStrategy(){}
+
 };
 
 #endif

@@ -5,6 +5,8 @@
 #include <iomanip>
 #include "AccountManager.h"
 
+// IMPLEMENTATION OF SINGLETON PATTERN
+
 AccountManager* AccountManager::instance = nullptr;
 
 AccountManager::AccountManager(double initialBalance) {
@@ -21,7 +23,7 @@ bool AccountManager::isNewAccount() {
     std::string line;
 
     if (!file) {
-        std::cerr << "Unable to open file: " << filename << std::endl;
+        // std::cerr << "Unable to open file: " << filename << std::endl;
         return true;
     }
     std::string symbol;

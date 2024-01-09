@@ -28,6 +28,8 @@ public:
     void addStocksToPortfolio();
     int getShares(std::string symbol);
     void removeNode(std::string symbol);
+    void sortByTotalValue();
     void addAccountLog(StockAccount *stockAccount);
+    void display();
 };
 #endif // DOUBLYLINKEDLIST_H

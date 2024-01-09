@@ -1,3 +1,6 @@
+// Authors: Sammed Sunil Admuthe
+
+
 #ifndef SORTINGSTRATEGY_H
 #define SORTINGSTRATEGY_H
 

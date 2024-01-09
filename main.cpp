@@ -16,14 +16,9 @@ using namespace std;
 int main() {
     int accountType;
     cout << "Welcome to the Account Management System." << endl;
-    // Bank Withdrawal
-    // AccountFactory* bankFactory = new BankAccountFactory();
-    // Account* bankAccount = bankFactory->createAccount(10000.0);
 
-    // AccountFactory* stockFactory = new StockAccountFactory();
-    // Account* stockAccount = stockFactory->createAccount(15000.0);
-    StockAccount stockAccount(10000);
-    BankAccount bankAccount(10000);
+    StockAccount* stockAccount = new StockAccount(10000);
+    BankAccount* bankAccount = new BankAccount(10000);
     do {
         cout << "Please select an account to access:" << endl;
         cout << "1. Stock Portfolio Account" << endl;
@@ -81,7 +76,7 @@ int main() {
                         {
                             //2. Display the current portfolio
                             std::cout<<"Displaying current portfolio: "<<std::endl;
-                            stockAccount.displayCurrentPortfolio();
+                            stockAccount->displayCurrentPortfolio();
                             break;
                         }
                         case 3:
@@ -96,7 +91,7 @@ int main() {
                             std::cin>>no_shares;
                             std::cout<<"Please enter the maximum amount you are willing to pay per share: "<<std::endl;
                             std::cin>>amount;
-                            stockAccount.buyShares(symb, no_shares, amount);
+                            stockAccount->buyShares(symb, no_shares, amount);
                             break;
                         }
                         case 4:
@@ -112,37 +107,40 @@ int main() {
 
                             std::cout<<"Please enter the minimum amount you are willing to sell each share of stock: "<<std::endl;
                             std::cin>>amount;
-                            stockAccount.sellShares(symb, no_shares, amount);    
+                            stockAccount->sellShares(symb, no_shares, amount);    
                             break;
                         }
                         case 5:
                         {
+                            //5. Create a graph for the total portfolio value over time
                             system("Rscript plot.R");
                             break;
                         }
                         case 6:
                         {
-                            stockAccount.viewTransactionHistory();
+                            //6. View transaction history
+                            stockAccount->viewTransactionHistory();
                             break;
                         }
                         case 7:
                         {
-                            // stockAccount.sortPortfolio();
-                            DoublyLinkedList* list = stockAccount.getList();
+                            // IMPLEMENTATION OF STRATEGY PATTERN
                             std::cout << "Choose one of the following options to sort on: " << std::endl;
                             std::cout << "1. Symbol" << std::endl;
                             std::cout << "2. Total value of each share" << std::endl;
                             int choice;
                             cin >> choice;
-
+                            DoublyLinkedList* list = stockAccount->getList();
                             if(choice == 1)
                             {
+                                // Sort by symbol - uses selection sort strategy
                                 SymbolSortStrategy symbolSort;
                                 list->setSortingStrategy(&symbolSort);
                                 list->sortList();
                             }
                             else if(choice == 2)
                             {
+                                // Sort by symbol - uses bubble sort strategy
                                 SharesValueSortStrategy sharesValueSortStrategy;
                                 list->setSortingStrategy(&sharesValueSortStrategy);
                                 list->sortList();
@@ -187,28 +185,32 @@ int main() {
                     {
                         case 1:
                         {
-                            bankAccount.accountBalance();
+                            // 1. View account balance
+                            bankAccount->accountBalance();
                             break;
                         }
                         case 2:
                         {
+                            // 2. Deposit money to bank account
                             double amount;
                             std::cout<<"Please select the amount you wish to deposit: "<<std::endl;
                             std::cin>>amount;
-                            bankAccount.deposit(amount);    
+                            bankAccount->deposit(amount);    
                             break;
                         }
                         case 3:
                         {
+                            // 3. Withdraw money from bank account
                             double amount;
                             std::cout<<"Please select the amount you wish to withdraw: "<<std::endl;
                             std::cin>>amount;
-                            bankAccount.withdraw(amount);
+                            bankAccount->withdraw(amount);
                             break;
                         }
                         case 4:
                         {
-                            bankAccount.viewBankTransactionHistory();
+                            // 4. Print out history of bank account
+                            bankAccount->viewBankTransactionHistory();
                             break;
                         }
                         case 5:
@@ -226,5 +228,7 @@ int main() {
         }
     }while (accountType < 3);
 
+    delete stockAccount;
+    delete bankAccount;
     return 0;
 }
